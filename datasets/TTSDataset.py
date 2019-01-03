@@ -154,11 +154,11 @@ class MyDataset(Dataset):
             else:
                 mel = [self.ap.melspectrogram(w).astype('float32') for w in wav]
                 linear = [self.ap.spectrogram(w).astype('float32') for w in wav]
-            mel_lengths = [m.shape[1] + 1 for m in mel]  # +1 for zero-frame
+            mel_lengths = [m.shape[1] for m in mel]  # +1 for zero-frame
 
             # compute 'stop token' targets
             stop_targets = [
-                np.array([0.] * (mel_len - 1)) for mel_len in mel_lengths
+                np.array([0.] * mel_len) for mel_len in mel_lengths
             ]
 
             # PAD stop targets
