@@ -34,7 +34,7 @@ class Prenet(nn.Module):
     def forward(self, inputs):
         for linear in self.layers:
             #inputs = self.dropout(self.relu(linear(inputs)))
-            inputs = self.relu(self.linear(inputs))
+            inputs = self.relu(linear(inputs))
         return inputs
 
 
