@@ -434,7 +434,8 @@ class Decoder(nn.Module):
                 if t >= T_decoder:
                     break
             else:
-                if t > inputs.shape[1] / 4 and stop_token > 0.6:
+                #TODO: make stoptokenthreshold as config argument
+                if t > inputs.shape[1] / 4 and stop_token > 0.5:
                     break
                 elif t > self.max_decoder_steps:
                     print("   | > Decoder stopped with 'max_decoder_steps")
