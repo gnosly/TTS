@@ -1,15 +1,13 @@
 import io
 import os
-import librosa
-import torch
-import scipy
+
 import numpy as np
-import soundfile as sf
-from utils.text import text_to_sequence, phoneme_to_sequence, phonemes
-from utils.generic_utils import load_config
-from utils.audio import AudioProcessor
+import torch
+
 from models.tacotron import Tacotron
-from matplotlib import pylab as plt
+from utils.audio import AudioProcessor
+from utils.generic_utils import load_config
+from utils.text import phoneme_to_sequence, phonemes
 
 
 class Synthesizer(object):
