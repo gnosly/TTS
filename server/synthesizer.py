@@ -23,13 +23,13 @@ class Synthesizer(object):
         self.ap = AudioProcessor(**config.audio)
 
         if self.use_phonemes:
-            self.inputSymbols = len(phonemes)
+            self.input_symbols = len(phonemes)
             self.input_adapter = lambda sen: phoneme_to_sequence(sen, [self.config.text_cleaner], self.config.phoneme_language)
         else:
-            self.inputSymbols = len(symbols)
+            self.input_symbols = len(symbols)
             self.input_adapter = lambda sen: text_to_sequence(sen, [self.config.text_cleaner])
 
-        self.model = Tacotron(self.inputSymbols, config.embedding_size, self.ap.num_freq, self.ap.num_mels, config.r)
+        self.model = Tacotron(self.input_symbols, config.embedding_size, self.ap.num_freq, self.ap.num_mels, config.r)
         # load model state
         if use_cuda:
             cp = torch.load(self.model_file)
