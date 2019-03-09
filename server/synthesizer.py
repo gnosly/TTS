@@ -9,7 +9,6 @@ from utils.audio import AudioProcessor
 from utils.generic_utils import load_config
 from utils.text import phoneme_to_sequence, phonemes, symbols, text_to_sequence
 
-
 class Synthesizer(object):
     def load_model(self, model_path, model_name, model_config, use_cuda):
         model_config = os.path.join(model_path, model_config)
@@ -25,8 +24,10 @@ class Synthesizer(object):
 
         if self.use_phonemes:
             self.inputSymbols = len(phonemes)
+            self.input_adapter = lambda sen: phoneme_to_sequence(sen, [self.config.text_cleaner], self.config.phoneme_language)
         else:
             self.inputSymbols = len(symbols)
+            self.input_adapter = lambda sen: text_to_sequence(sen, [self.config.text_cleaner])
 
         self.model = Tacotron(self.inputSymbols, config.embedding_size, self.ap.num_freq, self.ap.num_mels, config.r)
         # load model state
@@ -47,7 +48,6 @@ class Synthesizer(object):
         self.ap.save_wav(wav, path)
 
     def tts(self, text):
-        text_cleaner = [self.config.text_cleaner]
         wavs = []
         for sen in text.split('.'):
             if len(sen) < 3:
@@ -56,10 +56,8 @@ class Synthesizer(object):
             sen += '.'
             print(sen)
             sen = sen.strip()
-            if self.use_phonemes:
-                seq = np.array(phoneme_to_sequence(sen, text_cleaner, self.config.phoneme_language))
-            else:
-                seq = np.array(text_to_sequence(sen, text_cleaner))
+
+            seq = np.array(self.input_adapter(sen))
 
             chars_var = torch.from_numpy(seq).unsqueeze(0).long()
             if self.use_cuda:
