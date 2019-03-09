@@ -137,4 +137,6 @@ def _should_keep_symbol(s):
 
 
 def _should_keep_phoneme(p):
+    if p not in _phonemes_to_id:
+        print("Phoneme not recognized: {}".format(p))
     return p in _phonemes_to_id and p is not '_' and p is not '~'

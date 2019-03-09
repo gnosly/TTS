@@ -7,7 +7,7 @@ import torch
 from models.tacotron import Tacotron
 from utils.audio import AudioProcessor
 from utils.generic_utils import load_config
-from utils.text import phoneme_to_sequence, phonemes
+from utils.text import phoneme_to_sequence, phonemes, symbols, text_to_sequence
 
 
 class Synthesizer(object):
@@ -20,8 +20,15 @@ class Synthesizer(object):
         config = load_config(model_config)
         self.config = config
         self.use_cuda = use_cuda
+        self.use_phonemes = config.use_phonemes
         self.ap = AudioProcessor(**config.audio)
-        self.model = Tacotron(len(phonemes), config.embedding_size, self.ap.num_freq, self.ap.num_mels, config.r)
+
+        if self.use_phonemes:
+            self.inputSymbols = len(phonemes)
+        else:
+            self.inputSymbols = len(symbols)
+
+        self.model = Tacotron(self.inputSymbols, config.embedding_size, self.ap.num_freq, self.ap.num_mels, config.r)
         # load model state
         if use_cuda:
             cp = torch.load(self.model_file)
@@ -49,7 +56,11 @@ class Synthesizer(object):
             sen += '.'
             print(sen)
             sen = sen.strip()
-            seq = np.array(phoneme_to_sequence(sen, text_cleaner, self.config.phoneme_language))
+            if self.use_phonemes:
+                seq = np.array(phoneme_to_sequence(sen, text_cleaner, self.config.phoneme_language))
+            else:
+                seq = np.array(text_to_sequence(sen, text_cleaner))
+
             chars_var = torch.from_numpy(seq).unsqueeze(0).long()
             if self.use_cuda:
                 chars_var = chars_var.cuda()
