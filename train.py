@@ -92,11 +92,6 @@ def train(model, criterion, criterion_st, optimizer, optimizer_st, scheduler,
     for num_iter, data in enumerate(data_loader):
         start_time = time.time()
 
-    print("finish")
-
-    for num_iter, data in enumerate(data_loader):
-        start_time = time.time()
-
         # setup input data
         text_input = data[0]
         text_lengths = data[1]
