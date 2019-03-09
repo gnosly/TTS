@@ -87,7 +87,13 @@ def train(model, criterion, criterion_st, optimizer, optimizer_st, scheduler,
     if num_gpus > 0:
         batch_n_iter = int(len(data_loader.dataset) / (c.batch_size * num_gpus))
     else:
-        batch_n_iter = int(len(data_loader.dataset) / c.batch_size) 
+        batch_n_iter = int(len(data_loader.dataset) / c.batch_size)
+
+    for num_iter, data in enumerate(data_loader):
+        start_time = time.time()
+
+    print("finish")
+
     for num_iter, data in enumerate(data_loader):
         start_time = time.time()
 
