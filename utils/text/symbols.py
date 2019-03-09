@@ -13,11 +13,13 @@ _punctuations = '!\'(),-.:;? '
 _phoneme_punctuations = '.!;:,?'  # TODO not used!
 
 # Phonemes definition
-_vowels = 'iyɨʉɯuɪʏʊeøɘɵɤoɛœɜɞʌɔæɐaɶɑɒ'
+_vowels = 'iyɨʉɯuɪʏʊeøɘəɵɤoɛœɜɞʌɔæɐaɶɑɒ'
 _non_pulmonic_consonants = 'ʘɓǀɗǃʄǂɠǁʛ'
 _pulmonic_consonants = 'pbtdʈɖcɟkɡqɢʔɴŋɲɳnɱmʙrʀⱱɾɽɸβfvθðszʃʒʂʐçʝxɣχʁħʕhɦɬɮʋɹɻjɰlɭʎʟ'
-
-_phonemes = sorted(list(_vowels + _non_pulmonic_consonants + _pulmonic_consonants))
+_suprasegmentals = 'ˈˌːˑ.'
+_other_symbols = 'ʍwɥʜʢʡɕʑɺɧ'
+_diacrilics = 'ɚa˞̙e̘e̯n̩e̞e̝e̽ëɫe̠s̬t̬u̟ɔ̜ɔ̹t̼d̼b̰a̰a̤b̤t̪d̪t̺d̺t̻d̻ẽ'
+_phonemes = sorted(list(_vowels + _non_pulmonic_consonants + _pulmonic_consonants + _suprasegmentals + _other_symbols + _diacrilics))
 
 # Prepend "@" to ARPAbet symbols to ensure uniqueness (some are the same as uppercase letters):
 _arpabet = ['@' + s for s in _phonemes]

@@ -34,8 +34,7 @@ class Synthesizer(object):
         if use_cuda:
             cp = torch.load(self.model_file)
         else:
-            cp = torch.load(
-                self.model_file, map_location=lambda storage, loc: storage)
+            cp = torch.load(self.model_file, map_location=lambda storage, loc: storage)
         # load the model
         self.model.load_state_dict(cp['model'])
         if use_cuda:
